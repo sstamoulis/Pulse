@@ -81,9 +81,12 @@ namespace Pulse.Base
                     }
                     else
                     {
-                        _cachedThumb = PictureManager.ShrinkImage(Image.FromStream(
-                            new WebClient().OpenRead(Url)), 0, 150);
-
+                        using (var wc=new WebClient()) {
+                            var stream = wc.OpenRead(Url);
+                            var img = Image.FromStream(stream);
+                            _cachedThumb = PictureManager.ShrinkImage(img, 0, 150);
+                        }
+                        //_cachedThumb = PictureManager.ShrinkImage(Image.FromStream(new WebClient().OpenRead(Url)), 0, 150);
                     }
                 }
             }

@@ -73,7 +73,16 @@ namespace Pulse.Base
                 //generate a temp path to save the file to
                 _tempDownloadPath = Path.Combine(Path.GetTempPath(), "PulseTemp_" + Path.GetRandomFileName());
                 //download the file async
-                _client.DownloadFileAsync(new Uri(Picture.Url), _tempDownloadPath, Picture);
+                var url = new Uri(Picture.Url);
+                {
+                    var uriBuilder = new UriBuilder(url);
+                    if(!(uriBuilder.Scheme==Uri.UriSchemeHttp || uriBuilder.Scheme==Uri.UriSchemeHttps))
+                    {
+                        uriBuilder.Scheme=Uri.UriSchemeHttp;
+                    }
+                    url = uriBuilder.Uri;
+                }
+                _client.DownloadFileAsync(url, _tempDownloadPath, Picture);
 
                 //set status to downloading
                 Status = DownloadStatus.Downloading;

@@ -15,7 +15,7 @@ namespace wallbase
     public class WallbaseImageSearchSettings : Pulse.Base.XmlSerializable<WallbaseImageSearchSettings>
     {
         //                          
-        private const string Url = "http://alpha.wallhaven.cc/wallpaper/search?q={0}&categories={1}&purity={2}&resolutions={3}&sorting={4}&order={5}&page={6}";
+        private const string Url = "http://alpha.wallhaven.cc/search?q={0}&categories={1}&purity={2}&resolutions={3}&sorting={4}&order={5}&page={6}";
 
         public string Query { get; set; }
         public string WallbaseSearchLabel { get; set; }

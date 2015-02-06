@@ -157,7 +157,7 @@ namespace wallbase
         private List<Picture> ParsePictures(string content)
         {
             //<img alt="loading" class="lazyload loaded" data-src="http://alpha.wallhaven.cc/wallpapers/thumb/small/th-22047.jpg" src="http://alpha.wallhaven.cc/wallpapers/thumb/small/th-22047.jpg"><a class="preview" href="http://alpha.wallhaven.cc/wallpaper/4010"></a>
-            var picsRegex = new Regex("<a class=\"preview\" href=\"(?<link>http://alpha.wallhaven.cc/wallpaper/.*?)\".*?></a>", RegexOptions.Singleline);
+            var picsRegex = new Regex("<img .*?src=\"(?<thumb>http://alpha.wallhaven.cc/wallpapers/thumb/.*?)\".*?><a class=\"preview\" href=\"(?<link>http://alpha.wallhaven.cc/wallpaper/.*?)\".*?></a>", RegexOptions.Singleline);
             var picsMatches = picsRegex.Matches(content);
 
             var result = new List<Picture>();
@@ -166,6 +166,7 @@ namespace wallbase
                 var pic = new Picture();
 
                 pic.Url = picsMatches[i].Groups["link"].Value;
+                pic.Properties.Add(Picture.StandardProperties.Thumbnail, picsMatches[i].Groups["thumb"].Value);
                 //pic.Properties.Add(Picture.StandardProperties.Thumbnail, picsMatches[i].Groups["img"].Value);
 
                 result.Add(pic);
